@@ -28,6 +28,12 @@
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{50df211e-2bc5-4b75-ad86-731c95fa8ab8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Log">
+      <UniqueIdentifier>{4fd04908-31fc-4135-bf10-ffd548993bc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\storebox">
+      <UniqueIdentifier>{6b4de67e-b844-42b0-9baf-04b6c6eeb66a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -35,6 +41,21 @@
     </ClCompile>
     <ClCompile Include="config.cpp">
       <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="types.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="battle.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="storebox.cpp">
+      <Filter>Source Files\storebox</Filter>
+    </ClCompile>
+    <ClCompile Include="environment.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
+      <Filter>Source Files\Log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="types.h">
       <Filter>Source Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>Source Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="storebox.h">
+      <Filter>Source Files\storebox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,22 @@
 #include <vector>
 
 #include "enums.h"
+#include "log.h"
+
+struct Vec2
+{
+    Vec2() : x(0), y(0) {}
+    Vec2(float x, float y) : x(x), y(y) { }
+    float LenSq() const { return x * x + y * y; }    
+
+    Vec2 operator+(Vec2 p) { return p += *this; }
+    Vec2 operator+=(const Vec2& p) { x += p.x; y += p.y; return *this; }
+    Vec2 operator-(Vec2 p) { return p -= *this; }
+    Vec2 operator-=(const Vec2& p) { x -= p.x; y -= p.y; return *this; }
+
+    float x;
+    float y;
+};
 
 class AcademyTech
 {
@@ -38,7 +54,7 @@ struct StatBuff
 
 struct StatHolder
 {
-    float mStatValues[StatType::stNUM];
+    float val[StatType::stNUM];
 };
 
 struct Dragon
@@ -60,6 +76,7 @@ struct Lord
     std::vector<VIPBuffs> mVIPBuffs;
     std::vector<ConsumableBuffs> mConsumableBuffs;
 
+    TroopTier    mTroopTier[TroopKind::tkNUM];
     AcademyTech  mAcademyTech;
     AllianceTech mAllianceTech;
     LordTalents  mTalents;
@@ -95,14 +112,15 @@ struct Hero
     TowerOfKnowledgeSkills mSkills[MAX_TOK_SKILLS_ON_HERO];
 
     // Troops
-    TroopType mTroopType;
-    int       mTroopTier;
-    int       mTroopNum;
+    TroopKind mTroopKind;    
+    int       mTroopCouldLead;
 
     // TODO - I don't like the possibility to have stats in desync with source
-    // All getters?
     int RecalcStatsAndPower() { return 0; }
-    int GetPower() { return 0; }
+    
+    // TODO! Implement
+    int GetPower() const { return 1; }
+    float GetStat(StatType stat) const { return 30;  /*mStatsFinal.val[stat];*/ }
 
 protected:
     StatHolder mStatsFinal;
@@ -114,13 +132,62 @@ struct March
     March()
         : mLord(nullptr)
         , mDragon(nullptr)
+    {        
+    }
+
+    const Lord*   mLord;
+    const Dragon* mDragon;
+    const Hero*   mHeroes[BattleUnitPosition::bupNUM];
+    int           mNumTroops[BattleUnitPosition::bupNUM];    
+};
+
+struct RuntimeMarch;
+struct BattleUnit
+{
+    BattleUnit()
+        : mTarget(nullptr)
+        , mParent(nullptr)
+        , mHero(nullptr)
+        , mNumTroops(0)
+        , mEnergy(0)
+        , mPos(0, 0)
+        , mFlags(0)
+        , mAutoAttackReady(0)
     {}
 
-    Lord* mLord;
-    Dragon* mDragon;
-    std::vector<Hero*> mHeroes;
+    void SetFlag(BattleUnitCondition flag) { mFlags |= flag; }
+    void ClearFlag(BattleUnitCondition flag) { unsigned int tmp = flag; mFlags &= ~tmp; }
+    void ClearAllFlags() { mFlags = 0; }
+    bool HasFlag(BattleUnitCondition flag) const { return mFlags & flag; }
+    bool IsAlive() const { return mHero != nullptr && mNumTroops > 0; }
 
-    // + active talent from LordTalents
+    // TODO maybe cache?
+    BattleUnitPosition GetBattleUnitPosition() const;
+
+    BattleUnit*   mTarget;
+    RuntimeMarch* mParent;
+    const Hero*   mHero;
+
+    int   mNumTroops;
+    float mEnergy;
+    float mAutoAttackReady;
+    Vec2  mPos;
+    unsigned int mFlags;
+};
+
+struct RuntimeMarch
+{
+    RuntimeMarch()
+        : mMarch(nullptr)
+        , mSide(AttackSide::asNUM)
+    {}
+
+    void Init(AttackSide side, March* staticMarch);
+    int GetNumTroops() const;
+
+    const March* mMarch;
+    BattleUnit   mBattleUnits[BattleUnitPosition::bupNUM];
+    AttackSide   mSide;
 };
 
 struct Report
@@ -134,8 +201,8 @@ struct Report
     };
 
     BattleResult mResult;
-    TroopLoses mLosses[AttackSide::asNUM];
-    int mHonor[AttackSide::asNUM];
+    TroopLoses   mLosses[AttackSide::asNUM];
+    int          mHonor[AttackSide::asNUM];
 
     // Defender only
     int mTrainingGroundDeath;

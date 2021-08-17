@@ -10,21 +10,56 @@ enum AttackSide
     asAtk,
     asDef,
     
-    asNUM,
+    asNUM
+};
+
+// C(range) - A(melee)
+// D(range) - B(melee)
+enum BattleUnitPosition
+{
+    bupA,
+    bupB,
+    bupC,
+    bupD,
+
+    bupNUM
+};
+
+enum BattleUnitCondition
+{
+    bucMoving           = 1 << 0,
+    bucStun             = 1 << 1,
+    bucNoAutoAttack     = 1 << 2, 
+    bucNoSkills         = 1 << 3,
 };
 
 enum BattleResult
 {
     brVictory,
-    brDefeat
+    brDefeat,
+
+    brNUM
 };
 
-enum TroopType
+enum TroopKind
 {
-    ttCav,
-    ttShield,
-    ttSpear,
-    ttBow,
+    tkCav,
+    tkShield,
+    tkSpear,
+    tkBow,
+
+    tkNUM
+};
+
+enum TroopTier
+{
+    tt1,
+    tt2,
+    tt3,
+    tt4,
+    tt5,
+
+    ttNUM
 };
 
 enum NobilityLevel
@@ -50,7 +85,7 @@ enum NobilityLevel
     nlArchduke,
     nlPrince,
 
-    nlNUM,
+    nlNUM
 };
 
 enum ImmortalType
@@ -66,16 +101,18 @@ enum ImmortalType
 
 enum Rarity
 {
-    rGrey,
-    rGreyPlus,
-    rGreen,
-    rGreenPlus,
-    rBlue,
-    rBluePlus,
-    rPurple,
-    rPurplePlus,
-    rGold,
-    rGoldPlus
+    rrGrey,
+    rrGreyPlus,
+    rrGreen,
+    rrGreenPlus,
+    rrBlue,
+    rrBluePlus,
+    rrPurple,
+    rrPurplePlus,
+    rrGold,
+    rrGoldPlus,
+
+    rNUM
 };
 
 enum ElementType
@@ -87,24 +124,27 @@ enum ElementType
     etEarth,
     etShadow,
     etHoly,
+
+    etNUM
 };
 
 // TODO
-enum HeroPersona
+enum HeroName
 {
     //Water
-    hpMerlin,
+    hnMerlin,
     //Fire
     //Wind
     //Lightning
     //Earth
-    hpAlexander,
-    hpCharles,
-    hpZenobia,
-    hpCleo,
-    hpLeonid,
+    hnAlexander,
+    hnCharles,
+    hnZenobia,
+    hnCleo,
+    hnLeonid,
     //Shadow
     //Holy
+    hnNUM
 };
 
 enum StatType
@@ -118,15 +158,18 @@ enum StatType
     stAccuracy,
     stResil,
     stERegen,
+    stHP,
 
-    stNUM,
+    stNUM
 };
 
 enum Faction
 {
-    fRED,
-    fGREEN,
-    fBLUE,
+    faRED,
+    faGREEN,
+    faBLUE,
+
+    faNUM
 };
 
 enum TowerOfKnowledgeSkills
@@ -135,5 +178,6 @@ enum TowerOfKnowledgeSkills
     tokOnslaught,
     tokWisdom,
     // TODO
-    tokNUM,
+
+    tokNUM
 };

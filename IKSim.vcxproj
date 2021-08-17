@@ -139,8 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="battle.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="environment.cpp" />
+    <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="storebox.cpp" />
+    <ClCompile Include="types.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="analyzer.h" />
@@ -148,6 +153,8 @@
     <ClInclude Include="enums.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="environment.h" />
+    <ClInclude Include="log.h" />
+    <ClInclude Include="storebox.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

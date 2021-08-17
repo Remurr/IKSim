@@ -1,10 +1,13 @@
 #include "environment.h"
 #include "battle.h"
 #include "analyzer.h"
+#include "config.h"
 
 int main()
 {
     TestEnvironmentA testEnv;
+    testEnv.Init();
+    gConfig.Init();
 
     Battle battle;
     battle.AddParticipant(AttackSide::asAtk, testEnv.GetMarch(AttackSide::asAtk));
@@ -13,7 +16,6 @@ int main()
     
     const Report* rep = battle.GetReport();
     Analyzer::Analyze(rep);
-    delete rep;
 
     return 0;
 }
