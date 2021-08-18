@@ -47,8 +47,10 @@ void TestEnvironmentA::CreateDummyMarch()
     for (int i = 0; i < AttackSide::asNUM; ++i)
     {
         March* march = Storebox::Inst().NewMarch();
-        march->mLord = &Storebox::Inst().mLords.back();
-        march->mHeroes[BattleUnitPosition::bupA] = &Storebox::Inst().mHeroes.back();  
+
+        mMarches[i] = march;
+        march->mLord = Storebox::Inst().mLords.back();
+        march->mHeroes[BattleUnitPosition::bupA] = Storebox::Inst().mHeroes.back();  
         march->mNumTroops[BattleUnitPosition::bupA] = 100;
     }
 }

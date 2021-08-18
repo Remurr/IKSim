@@ -32,12 +32,23 @@ void RuntimeMarch::Init(AttackSide side, March* staticMarch)
     mBattleUnits[BattleUnitPosition::bupD].mPos = Vec2((side == AttackSide::asDef ? 1.f : -1.f) * (TroopToBorderX + BetweenTroopsX), BetweenTroopsY);
 }
 
-int RuntimeMarch::GetNumTroops() const
+int RuntimeMarch::CalcUnitedTroopsNum() const
 {
     int totalTroops = 0;
     for (int i = 0; i < BattleUnitPosition::bupNUM; ++i)
     {
         totalTroops += mBattleUnits[i].mNumTroops;
+    }
+
+    return totalTroops;
+}
+
+int March::CalcUnitedTroopsNum() const
+{
+    int totalTroops = 0;
+    for (int i = 0; i < BattleUnitPosition::bupNUM; ++i)
+    {
+        totalTroops += mNumTroops[i];
     }
 
     return totalTroops;

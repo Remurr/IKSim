@@ -5,9 +5,10 @@
 
 int main()
 {
+    gConfig.Init();
+
     TestEnvironmentA testEnv;
     testEnv.Init();
-    gConfig.Init();
 
     Battle battle;
     battle.AddParticipant(AttackSide::asAtk, testEnv.GetMarch(AttackSide::asAtk));

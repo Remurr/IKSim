@@ -17,6 +17,7 @@ public:
 
 private:
     void PreBattle();
+    void PostBattle();
 
     bool FindTargets();
     bool MoveTroops();
@@ -27,7 +28,7 @@ private:
 private:
     Report       mReport;
     RuntimeMarch mRuntimeMarches[AttackSide::asNUM];
-    int          mFrames;
+    int          mBattleFrameNum;
 
     March* mMarches[AttackSide::asNUM];
 };

@@ -132,8 +132,12 @@ struct March
     March()
         : mLord(nullptr)
         , mDragon(nullptr)
+        , mHeroes()
+        , mNumTroops()
     {        
     }
+
+    int CalcUnitedTroopsNum() const;
 
     const Lord*   mLord;
     const Dragon* mDragon;
@@ -150,9 +154,9 @@ struct BattleUnit
         , mHero(nullptr)
         , mNumTroops(0)
         , mEnergy(0)
+        , mAutoAttackReady(0)
         , mPos(0, 0)
         , mFlags(0)
-        , mAutoAttackReady(0)
     {}
 
     void SetFlag(BattleUnitCondition flag) { mFlags |= flag; }
@@ -179,11 +183,12 @@ struct RuntimeMarch
 {
     RuntimeMarch()
         : mMarch(nullptr)
+        , mBattleUnits()
         , mSide(AttackSide::asNUM)
     {}
 
     void Init(AttackSide side, March* staticMarch);
-    int GetNumTroops() const;
+    int CalcUnitedTroopsNum() const;
 
     const March* mMarch;
     BattleUnit   mBattleUnits[BattleUnitPosition::bupNUM];
@@ -199,6 +204,14 @@ struct Report
         int woundedLight;
         int woundedHeavy;
     };
+
+    Report()
+        : mResult(BattleResult::brNUM)
+        , mLosses()
+        , mHonor()
+        , mTrainingGroundDeath(0)
+        , mProsperityLoss(0)
+    {}
 
     BattleResult mResult;
     TroopLoses   mLosses[AttackSide::asNUM];

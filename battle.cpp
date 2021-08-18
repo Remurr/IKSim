@@ -19,10 +19,10 @@ void Battle::Execute()
 
     while (true)
     {
-        const int numTroopsA = mRuntimeMarches[AttackSide::asAtk].GetNumTroops();
-        const int numTroopsD = mRuntimeMarches[AttackSide::asDef].GetNumTroops();
+        const int numTroopsA = mRuntimeMarches[AttackSide::asAtk].CalcUnitedTroopsNum();
+        const int numTroopsD = mRuntimeMarches[AttackSide::asDef].CalcUnitedTroopsNum();
         
-        if (numTroopsA == 0 || numTroopsD == 0)
+        if (numTroopsA <= 0 || numTroopsD <= 0)
         {
             break;
         }
@@ -31,17 +31,19 @@ void Battle::Execute()
         MoveTroops();
         MakeDamage();  
 
-        mFrames += 1;
-        if (mFrames >= gConfig.GetMatchFrames())
+        mBattleFrameNum += 1;
+        if (mBattleFrameNum >= gConfig.GetMatchFrames())
         {
             // Timeout Defender Victory
         }
     }
+
+    PostBattle();
 }
 
 void Battle::PreBattle()
 {
-    mFrames = gConfig.GetBattle—onvergenceFrames();
+    mBattleFrameNum = gConfig.GetBattle—onvergenceFrames();
 }
 
 bool Battle::FindTargets()
@@ -187,9 +189,30 @@ int Battle::AutoAttack(BattleUnit& actor)
     if (actorEnemy.mNumTroops <= 0)
     {
         actor.mTarget = nullptr;
+        actorEnemy.mNumTroops = 0;
     }
 
     return troopsKilled;
 }
 
+void Battle::PostBattle()
+{
+    const int numTroops[AttackSide::asNUM] = {
+        mRuntimeMarches[AttackSide::asAtk].CalcUnitedTroopsNum()
+      , mRuntimeMarches[AttackSide::asDef].CalcUnitedTroopsNum()
+    };
+
+    mReport.mResult = (numTroops[AttackSide::asDef] <= 0 ? BattleResult::brVictory : BattleResult::brDefeat);
+    for (int i = 0; i < AttackSide::asNUM; ++i)
+    {
+        mReport.mLosses[i].numSurvived = numTroops[i];
+        // TODO - how troops distributed between wounded/dead?
+        mReport.mLosses[i].woundedLight = 0;
+        mReport.mLosses[i].woundedHeavy = 0;
+        mReport.mLosses[i].numDead = mRuntimeMarches[i].mMarch->CalcUnitedTroopsNum() - numTroops[i];
+
+        // TODO - how kills converted to honor?
+        mReport.mHonor[i] = 1;
+    }
+}
 
