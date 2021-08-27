@@ -1,7 +1,6 @@
 #pragma once
 #include <stdio.h>
-
-#include "types.h"
+#include "runtime_types.h"
 
 class Analyzer
 {

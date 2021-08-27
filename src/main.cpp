@@ -1,4 +1,4 @@
-#include "environment.h"
+#include "playground.h"
 #include "battle.h"
 #include "analyzer.h"
 #include "config.h"
@@ -7,7 +7,7 @@ int main()
 {
     gConfig.Init();
 
-    TestEnvironmentA testEnv;
+    TestPlaygroundA testEnv;
     testEnv.Init();
 
     Battle battle;

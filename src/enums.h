@@ -1,10 +1,5 @@
 #pragma once
 
-const int NUM_HEROES_IN_MARCH = 4;
-const int NUM_EQUIPMENT_PIECES = 4;
-const int MAX_TOK_SKILLS_ON_HERO = 3;
-const int NUM_SKILLS_ON_DRAGON = 3;
-
 enum AttackSide
 {
     asAtk,
@@ -15,7 +10,7 @@ enum AttackSide
 
 // C(range) - A(melee)
 // D(range) - B(melee)
-enum BattleUnitPosition
+enum RuntimeUnitPosition
 {
     bupA,
     bupB,
@@ -25,12 +20,12 @@ enum BattleUnitPosition
     bupNUM
 };
 
-enum BattleUnitCondition
+enum RuntimeUnitCondition
 {
-    bucMoving           = 1 << 0,
-    bucStun             = 1 << 1,
-    bucNoAutoAttack     = 1 << 2, 
-    bucNoSkills         = 1 << 3,
+    rucMoving           = 1 << 0,
+    rucStun             = 1 << 1,
+    rucNoAutoAttack     = 1 << 2, 
+    rucNoSkills         = 1 << 3,
 };
 
 enum BattleResult
@@ -60,6 +55,23 @@ enum TroopTier
     tt5,
 
     ttNUM
+};
+
+enum SkillTier
+{
+    sktNone = 0,
+    skt0 = sktNone,
+    skt1,
+    skt2,
+    skt3,
+    skt4,
+    skt5,
+    skt6,
+    skt7,
+    skt8,
+    sktMAX = skt8,
+
+    sktNUM
 };
 
 enum NobilityLevel
@@ -172,12 +184,27 @@ enum Faction
     faNUM
 };
 
-enum TowerOfKnowledgeSkills
+enum SkillRoster
 {
-    tokEmpty,
-    tokOnslaught,
-    tokWisdom,
-    // TODO
+    srEmpty,
+    srHeroUlti,
 
-    tokNUM
+    // TEST ONE
+    srRageBlessing,
+
+    // TOK
+    srOnslaught,
+    srWisdom,
+    // TODO
+    //...
+
+    srNUM
+};
+
+enum BuffType
+{
+    btStats,
+    btControlImmune,
+
+    btNUM
 };

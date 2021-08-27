@@ -1,16 +1,15 @@
 #pragma once
 
-#include "types.h"
+#include "playground_types.h"
 
-class Environment
+class Playground
 {
 public:
     virtual void Init() = 0;
     virtual March* GetMarch(AttackSide side) = 0; // TODO refactor
 };
 
-
-class TestEnvironmentA : public Environment
+class TestPlaygroundA : public Playground
 {
 public:
     void Init() override;

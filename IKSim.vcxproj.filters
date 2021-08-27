@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Input">
-      <UniqueIdentifier>{5c007f91-0b15-465f-9928-929bb402b6ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine">
-      <UniqueIdentifier>{4fc8fca4-339b-48c6-a098-634e22ea4b04}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Config">
       <UniqueIdentifier>{349f7c0e-6d95-4333-ad7a-6aab9a664677}</UniqueIdentifier>
     </Filter>
@@ -31,57 +25,87 @@
     <Filter Include="Source Files\Log">
       <UniqueIdentifier>{4fd04908-31fc-4135-bf10-ffd548993bc7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\storebox">
-      <UniqueIdentifier>{6b4de67e-b844-42b0-9baf-04b6c6eeb66a}</UniqueIdentifier>
+    <Filter Include="Source Files\Playground">
+      <UniqueIdentifier>{5c007f91-0b15-465f-9928-929bb402b6ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Runtime">
+      <UniqueIdentifier>{fe65b625-244c-4935-8766-58dee350e8aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Runtime\Skills">
+      <UniqueIdentifier>{9257ea13-5bf3-4f69-bfbd-438855ae8be5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="config.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="types.cpp">
+    <ClCompile Include="src\common_types.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="battle.cpp">
-      <Filter>Source Files\Engine</Filter>
+    <ClCompile Include="src\config.cpp">
+      <Filter>Source Files\Config</Filter>
     </ClCompile>
-    <ClCompile Include="storebox.cpp">
-      <Filter>Source Files\storebox</Filter>
+    <ClCompile Include="src\playground_storage.cpp">
+      <Filter>Source Files\Playground</Filter>
     </ClCompile>
-    <ClCompile Include="environment.cpp">
-      <Filter>Source Files\Input</Filter>
+    <ClCompile Include="src\playground.cpp">
+      <Filter>Source Files\Playground</Filter>
     </ClCompile>
-    <ClCompile Include="log.cpp">
+    <ClCompile Include="src\playground_types.cpp">
+      <Filter>Source Files\Playground</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log.cpp">
       <Filter>Source Files\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\battle.cpp">
+      <Filter>Source Files\Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="src\runtime_types.cpp">
+      <Filter>Source Files\Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\buffs.cpp">
+      <Filter>Source Files\Runtime\Skills</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skills.cpp">
+      <Filter>Source Files\Runtime\Skills</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config.h">
-      <Filter>Source Files\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="battle.h">
-      <Filter>Source Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="environment.h">
-      <Filter>Source Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="analyzer.h">
+    <ClInclude Include="src\analyzer.h">
       <Filter>Source Files\Analysis</Filter>
     </ClInclude>
-    <ClInclude Include="enums.h">
+    <ClInclude Include="src\common_types.h">
       <Filter>Source Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="types.h">
+    <ClInclude Include="src\enums.h">
       <Filter>Source Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="log.h">
+    <ClInclude Include="src\config.h">
+      <Filter>Source Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="src\playground_storage.h">
+      <Filter>Source Files\Playground</Filter>
+    </ClInclude>
+    <ClInclude Include="src\playground.h">
+      <Filter>Source Files\Playground</Filter>
+    </ClInclude>
+    <ClInclude Include="src\playground_types.h">
+      <Filter>Source Files\Playground</Filter>
+    </ClInclude>
+    <ClInclude Include="src\log.h">
       <Filter>Source Files\Log</Filter>
     </ClInclude>
-    <ClInclude Include="storebox.h">
-      <Filter>Source Files\storebox</Filter>
+    <ClInclude Include="src\battle.h">
+      <Filter>Source Files\Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="src\runtime_types.h">
+      <Filter>Source Files\Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="src\buffs.h">
+      <Filter>Source Files\Runtime\Skills</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skills.h">
+      <Filter>Source Files\Runtime\Skills</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

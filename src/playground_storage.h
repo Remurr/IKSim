@@ -1,11 +1,11 @@
 #pragma once
-#include "types.h"
+#include <vector>
+#include "playground_types.h"
 
-// TODO bad name
-class Storebox
+class PlaygroundStorage
 {
 public:
-    static Storebox& Inst();
+    static PlaygroundStorage& Inst();
 
     Lord*   NewLord() { mLords.push_back(new Lord()); return mLords.back(); }
     Dragon* NewDragon() { mDragons.push_back(new Dragon()); return mDragons.back(); }
@@ -15,6 +15,5 @@ public:
     std::vector<Lord*>   mLords;
     std::vector<Dragon*> mDragons;
     std::vector<Hero*>   mHeroes;
-
-    std::vector<March*> mMarches;
+    std::vector<March*>  mMarches;
 };

@@ -1,12 +1,11 @@
 #pragma once
-#include <vector>
 
-#include "types.h"
+#include "runtime_types.h"
 
 class Battle
 {
 public:
-    Battle() {}
+    Battle();
     Battle(March* marchA, March* marchB);
 
     void AddParticipant(AttackSide pt, March* march);
@@ -23,7 +22,7 @@ private:
     bool MoveTroops();
     void MakeDamage();
 
-    int  AutoAttack(BattleUnit &actor);
+    int  AutoAttack(RuntimeUnit &actor);
 
 private:
     Report       mReport;

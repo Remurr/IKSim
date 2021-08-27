@@ -1,6 +1,15 @@
 #include "battle.h"
 
 #include "config.h"
+#include "skills.h"
+
+Battle::Battle()
+    : mReport()
+    , mRuntimeMarches()
+    , mBattleFrameNum(0)
+    , mMarches()
+{
+}
 
 Battle::Battle(March* marchA, March* marchB)    
 {
@@ -43,7 +52,24 @@ void Battle::Execute()
 
 void Battle::PreBattle()
 {
-    mBattleFrameNum = gConfig.GetBattle—onvergenceFrames();
+    // TODO Should we start from 0 or from this?
+    mBattleFrameNum = gConfig.GetUnitsRunIntoBattleFrames();
+
+    mRuntimeMarches[0].SetEnemy(&mRuntimeMarches[1]);
+    mRuntimeMarches[1].SetEnemy(&mRuntimeMarches[0]);
+
+    for (int i = 0; i < AttackSide::asNUM; ++i)
+    {
+        RuntimeMarch& rtMarch = mRuntimeMarches[i];        
+        for (int j = 0; j < RuntimeUnitPosition::bupNUM; ++j)
+        {
+            RuntimeUnit& actor = rtMarch.mRuntimeUnits[j];
+            for (int k = 0; k < actor.mSkills.Len(); ++k)
+            {
+                actor.mSkills[k]->OnBattleStart();
+            }
+        }
+    }
 }
 
 bool Battle::FindTargets()
@@ -55,17 +81,17 @@ bool Battle::FindTargets()
     {
         RuntimeMarch& rtMarch = mRuntimeMarches[i];
         RuntimeMarch& rtEnemy = mRuntimeMarches[(i + 1) % AttackSide::asNUM];
-        for (int j = 0; j < BattleUnitPosition::bupNUM; ++j)
+        for (int j = 0; j < RuntimeUnitPosition::bupNUM; ++j)
         {
-            BattleUnit& actor = rtMarch.mBattleUnits[j];
+            RuntimeUnit& actor = rtMarch.mRuntimeUnits[j];
             if (actor.mTarget != nullptr)
             {
                 continue;
             }
             float minDistSq = 1e9;
-            for (int k = 0; k < BattleUnitPosition::bupNUM; ++k)
+            for (int k = 0; k < RuntimeUnitPosition::bupNUM; ++k)
             {
-                BattleUnit& actorEnemy = rtEnemy.mBattleUnits[k];
+                RuntimeUnit& actorEnemy = rtEnemy.mRuntimeUnits[k];
                 if (actorEnemy.mNumTroops == 0)
                 {
                     continue;
@@ -75,7 +101,7 @@ bool Battle::FindTargets()
                 if (d < minDistSq)
                 {
                     actor.mTarget = &actorEnemy;
-                    actor.SetFlag(BattleUnitCondition::bucMoving);
+                    actor.SetConditionFlag(RuntimeUnitCondition::rucMoving);
                     minDistSq = d;
                     ret = true;
                 }
@@ -95,10 +121,10 @@ bool Battle::MoveTroops()
     for (int i = 0; i < AttackSide::asNUM; ++i)
     {
         RuntimeMarch& rtMarch = mRuntimeMarches[i];
-        for (int j = 0; j < BattleUnitPosition::bupNUM; ++j)
+        for (int j = 0; j < RuntimeUnitPosition::bupNUM; ++j)
         {
-            BattleUnit& actor = rtMarch.mBattleUnits[j];
-            if (actor.IsAlive() == false || actor.HasFlag(BattleUnitCondition::bucMoving) == false)
+            RuntimeUnit& actor = rtMarch.mRuntimeUnits[j];
+            if (actor.IsAlive() == false || actor.HasConditionFlag(RuntimeUnitCondition::rucMoving) == false)
             {
                 continue;
             }
@@ -109,7 +135,7 @@ bool Battle::MoveTroops()
             if (dir.LenSq() <= CloseUpDistanceSq)
             {
                 // We arrived
-                actor.ClearFlag(BattleUnitCondition::bucMoving);
+                actor.ClearConditionFlag(RuntimeUnitCondition::rucMoving);
             }
             else
             {
@@ -128,9 +154,9 @@ void Battle::MakeDamage()
     for (int i = 0; i < AttackSide::asNUM; ++i)
     {
         RuntimeMarch& rtMarch = mRuntimeMarches[i];
-        for (int j = 0; j < BattleUnitPosition::bupNUM; ++j)
+        for (int j = 0; j < RuntimeUnitPosition::bupNUM; ++j)
         {
-            BattleUnit& actor = rtMarch.mBattleUnits[j];
+            RuntimeUnit& actor = rtMarch.mRuntimeUnits[j];
             if (actor.IsAlive() == false)
             {
                 continue;
@@ -148,32 +174,32 @@ void Battle::MakeDamage()
                 AutoAttack(actor);
             }
 
-            // Check TOK stells
+            // Check TOK spells
             // TBD
         }
     }
 }
 
-int Battle::AutoAttack(BattleUnit& actor)
+int Battle::AutoAttack(RuntimeUnit& actor)
 {
     const TroopKind myTroopKind = actor.mHero->mTroopKind;
     const float a = actor.mHero->GetStat(StatType::stPhysAtk)
         * gConfig.GetTroopStat(
             myTroopKind, 
-            actor.mParent->mMarch->mLord->mTroopTier[myTroopKind], 
+            actor.mOwner->mMarch->mLord->mTroopTier[myTroopKind], 
             StatType::stPhysAtk);
 
-    BattleUnit& actorEnemy = *actor.mTarget;
+    RuntimeUnit& actorEnemy = *actor.mTarget;
     const TroopKind enemyTroopKind = actorEnemy.mHero->mTroopKind;
     const float d = actorEnemy.mHero->GetStat(StatType::stPhysDef)
         * gConfig.GetTroopStat(
             enemyTroopKind, 
-            actorEnemy.mParent->mMarch->mLord->mTroopTier[enemyTroopKind],
+            actorEnemy.mOwner->mMarch->mLord->mTroopTier[enemyTroopKind],
             StatType::stPhysDef);
 
     const float hp = gConfig.GetTroopStat(
         enemyTroopKind,
-        actorEnemy.mParent->mMarch->mLord->mTroopTier[enemyTroopKind],
+        actorEnemy.mOwner->mMarch->mLord->mTroopTier[enemyTroopKind],
         StatType::stHP);
 
     // NUM * 20 * (ah * at + 150) / (ah * at + 2 * dh * dt + 300) / hp
