@@ -21,6 +21,7 @@ private:
     bool FindTargets();
     bool MoveTroops();
     void MakeDamage();
+    void EnergyRegen();
 
     int  AutoAttack(RuntimeUnit &actor);
 

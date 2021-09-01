@@ -141,38 +141,48 @@ enum ElementType
 };
 
 // TODO
-enum HeroName
+enum HeroPersona
 {
     //Water
-    hnMerlin,
+    hpMerlin,
     //Fire
     //Wind
     //Lightning
     //Earth
-    hnAlexander,
-    hnCharles,
-    hnZenobia,
-    hnCleo,
-    hnLeonid,
+    hpAlexander,
+    hpCharles,
+    hpZenobia,
+    hpCleo,
+    hpLeonid,
     //Shadow
     //Holy
-    hnNUM
+    hpTEST,
+    hpNUM
 };
 
-enum StatType
+enum TroopsStatType
 {
-    stPhysAtk,
-    stPhysDef,
-    stMagicAtk,
-    stMagicDef,
-    stCrit,
-    stDodge,
-    stAccuracy,
-    stResil,
-    stERegen,
-    stHP,
+    tstAtk,
+    tstDef,
+    tstHP,
 
-    stNUM
+    tstNUM
+};
+
+enum HeroStatType
+{
+    hstPhysAtk,
+    hstPhysDef,
+    hstMagicAtk,
+    hstMagicDef,
+    hstCrit,
+    hstDodge,
+    hstAccuracy,
+    hstResil,
+    hstERegen,
+    hstHP,
+
+    hstNUM
 };
 
 enum Faction

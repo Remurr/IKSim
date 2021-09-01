@@ -8,6 +8,11 @@ void RuntimeUnit::Init(RuntimeUnitPosition pos, RuntimeMarch* rtMarch)
     mTarget = nullptr;
     mOwner = rtMarch;
     mHero = rtMarch->mMarch->mHeroes[pos];
+    if (mHero == nullptr)
+    {
+        return;
+    }
+
     mNumTroops = rtMarch->mMarch->mNumTroops[pos];
     mEnergy = Config::INITIAL_ENERGY;
     mAutoAttackReady = 1.f;
@@ -44,8 +49,48 @@ void RuntimeUnit::Init(RuntimeUnitPosition pos, RuntimeMarch* rtMarch)
                 break;
             }
         }
+    }    
+}
+
+int RuntimeUnit::TakeAutoAttackDamage(int atackerNumTroops, int atackerTroopAtkStat)
+{
+    const TroopKind enemyTroopKind = mHero->mTroopKind;
+    const float d = mHero->GetStat(HeroStatType::hstPhysDef)
+        * gConfig.GetTroopStat(
+            enemyTroopKind,
+            mOwner->mMarch->mLord->mTroopTier[enemyTroopKind],
+            TroopsStatType::tstDef);
+
+    const int hp = gConfig.GetTroopStat(
+        enemyTroopKind,
+        mOwner->mMarch->mLord->mTroopTier[enemyTroopKind],
+        TroopsStatType::tstHP);
+
+    // NUM * 20 * (ah * at + 150) / (ah * at + 2 * dh * dt + 300) / hp
+    const float Z = 20;
+    const float K = 150;
+    const float L = 300;
+    float damageDone = atackerNumTroops * Z * (atackerTroopAtkStat + K) / (atackerTroopAtkStat + 2 * d + L) / hp;
+    int troopsKilled = int(damageDone + 0.5f);
+
+    mNumTroops -= troopsKilled;
+
+    if (mNumTroops <= 0)
+    {
+        mNumTroops = 0;
     }
-    
+
+    return troopsKilled;
+}
+
+void RuntimeUnit::TakeSkillDamage(int amount)
+{
+    // TODO Dummy approach
+    const TroopKind myTroopKind = mHero->mTroopKind;
+    const int oneUnitHp = gConfig.GetTroopStat(myTroopKind,
+        mOwner->mMarch->mLord->mTroopTier[myTroopKind],
+        TroopsStatType::tstHP);
+    mNumTroops -= amount / oneUnitHp;
 }
 
 void RuntimeMarch::Init(AttackSide side, March* staticMarch)
@@ -71,3 +116,4 @@ int RuntimeMarch::CalcUnitedTroopsNum() const
 
     return totalTroops;
 }
+

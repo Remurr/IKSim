@@ -1,19 +1,27 @@
 #pragma once
-#include <vector>
 #include "playground_types.h"
 
+class PlaygroundStorageImpl;
 class PlaygroundStorage
 {
 public:
     static PlaygroundStorage& Inst();
 
-    Lord*   NewLord() { mLords.push_back(new Lord()); return mLords.back(); }
-    Dragon* NewDragon() { mDragons.push_back(new Dragon()); return mDragons.back(); }
-    Hero*   NewHero() { mHeroes.push_back(new Hero()); return mHeroes.back(); }
-    March*  NewMarch() { mMarches.push_back(new March()); return mMarches.back(); }
+public:
+    void Init();
 
-    std::vector<Lord*>   mLords;
-    std::vector<Dragon*> mDragons;
-    std::vector<Hero*>   mHeroes;
-    std::vector<March*>  mMarches;
+    Lord*   NewLord(); 
+    Dragon* NewDragon();
+    Hero*   NewHero(); 
+    March*  NewMarch();
+
+    // I don't want to include <vector> to other files, but I don't like this proxy design..
+    // TODO - think about it
+    Lord*   LastLord(); 
+    Dragon* LastDragon();
+    Hero*   LastHero(); 
+    March*  LastMarch();
+
+protected:
+    PlaygroundStorageImpl* mImpl;
 };

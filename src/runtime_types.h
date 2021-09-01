@@ -21,13 +21,16 @@ struct RuntimeUnit
     {}
 
     void Init(RuntimeUnitPosition pos, RuntimeMarch *rtMarch);
+
+    bool IsAlive() const { return mHero != nullptr && mNumTroops > 0; }
+
     void SetConditionFlag(RuntimeUnitCondition flag) { mConditionFlags |= flag; }
     void ClearConditionFlag(RuntimeUnitCondition flag) { unsigned int tmp = flag; mConditionFlags &= ~tmp; }
     void ClearAllConditionFlags() { mConditionFlags = 0; }
     bool HasConditionFlag(RuntimeUnitCondition flag) const { return mConditionFlags & flag; }
-    bool IsAlive() const { return mHero != nullptr && mNumTroops > 0; }
-    void AddBuff() {}
-    void RemoveBuff() {}
+
+    void TakeSkillDamage(int amount);
+    int TakeAutoAttackDamage(int atackerNumTroops, int atackerTroopAtkStat);
 
     // TODO maybe cache?
     RuntimeUnitPosition GetBattleUnitPosition() const;

@@ -28,7 +28,7 @@ struct Dragon
 
 protected:
     int mLvl;
-    StatHolder mStats;
+    HeroStatHolder mStats;
 };
 
 struct Lord
@@ -65,7 +65,8 @@ struct EquipmentPiece
 struct Hero
 {
     Hero()
-        : mElement(etNUM)
+        : mPersona(hpNUM)
+        , mElement(etNUM)
         , mLvl(0)
         , mStars(0)
         , mRuneLvl(0)
@@ -78,6 +79,7 @@ struct Hero
     {}
 
     // Avatar
+    HeroPersona mPersona;
     ElementType mElement;
     int mLvl;
     int mStars;
@@ -92,10 +94,22 @@ struct Hero
 
     // TODO! Implement
     int GetPower() const { return 1; }
-    float GetStat(StatType stat) const { return mStats.Get(stat); }
+    float GetStat(HeroStatType stat) const 
+    { 
+        // TODO
+        if (stat == HeroStatType::hstPhysAtk)
+        {
+            return 51.5f;
+        }
+        else if (stat == HeroStatType::hstPhysDef)
+        {
+            return 38.6f;
+        }
+        return 100;/*mStats.Get(stat);*/ 
+    }
 
 protected:
-    StatHolder mStats;
+    HeroStatHolder mStats;
 };
 
 struct March

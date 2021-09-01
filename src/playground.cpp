@@ -3,6 +3,7 @@
 
 void TestPlaygroundA::Init()
 {
+    PlaygroundStorage::Inst().Init();
     CreateDummyLord();
     CreateDummyHero();
     CreateDummyMarch();
@@ -23,6 +24,7 @@ void TestPlaygroundA::CreateDummyHero()
     // Take Pierre Terrail
     Hero* hero = PlaygroundStorage::Inst().NewHero();
 
+    hero->mPersona = HeroPersona::hpTEST;
     hero->mElement = ElementType::etWater;
     hero->mLvl = 1;
     hero->mStars = 0;
@@ -49,8 +51,8 @@ void TestPlaygroundA::CreateDummyMarch()
         March* march = PlaygroundStorage::Inst().NewMarch();
 
         mMarches[i] = march;
-        march->mLord = PlaygroundStorage::Inst().mLords.back();
-        march->mHeroes[RuntimeUnitPosition::bupA] = PlaygroundStorage::Inst().mHeroes.back();
-        march->mNumTroops[RuntimeUnitPosition::bupA] = 100;
+        march->mLord = PlaygroundStorage::Inst().LastLord();
+        march->mHeroes[RuntimeUnitPosition::bupA] = PlaygroundStorage::Inst().LastHero();
+        march->mNumTroops[RuntimeUnitPosition::bupA] = 1000;
     }
 }

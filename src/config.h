@@ -3,21 +3,23 @@
 
 struct StatModifier
 {
-    StatType mType;
+    HeroStatType mType;
     float    mVal;
     bool     mIsPercent;
 };
 
-struct StatHolder
+// TODO - do we need this?
+struct HeroStatHolder
 {
     void ApplyModifier(StatModifier modi) {}
     void RemoveModifier(StatModifier modi) {}
-    float Get(StatType stat) const { return mValWithModifiers[stat]; }
+    float Get(HeroStatType stat) const { return mValWithModifiers[stat]; }
 
-    float mValOriginal[StatType::stNUM];
-    float mValWithModifiers[StatType::stNUM];
+    float mValOriginal[HeroStatType::hstNUM];
+    float mValWithModifiers[HeroStatType::hstNUM];
 };
 
+class ConfigImpl;
 class Config
 {
 public:
@@ -26,12 +28,13 @@ public:
     static const int NUM_SKILLS_ON_HERO = 4;
     static const int NUM_SKILLS_ON_DRAGON = 3;
     static const int INITIAL_ENERGY = 100;
+    static const int FULL_ENERGY = 1000;
+    static const int MAX_SKILL_LVL = 8;
 
 public:
-    void Init()
-    {
-        // TBD
-    }
+    Config() : mImpl(nullptr) {}
+    ~Config();
+    void Init();
 
     int GetFPS() { return 10; }
     int GetMatchFrames() { return 90 * GetFPS(); }
@@ -47,11 +50,11 @@ public:
     float GetUnitPlacementBetweenTroopsY() { return 1.f; }
     float GetUnitPlacementStopAtDistSq() { return 0.5f * 0.5f; }
 
-    // TODO!
-    float GetTroopStat(TroopKind kind, TroopTier tier, StatType stat) { return 20; /*mTroopStats[kind][tier].val[stat];*/ }
-
+    int  GetTroopStat(TroopKind kind, TroopTier tier, TroopsStatType stat);
+    void GetHeroUltiValue(HeroPersona persona, int lvl, int* outA, int* outB = nullptr, int* outC = nullptr);
+    
 private:
-    StatHolder mTroopStats[TroopKind::tkNUM][TroopTier::ttNUM];
+    ConfigImpl* mImpl;    
 };
 
 extern Config gConfig;

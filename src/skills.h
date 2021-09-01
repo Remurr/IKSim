@@ -49,3 +49,15 @@ protected:
     static const int sNumUnits = 3;
     static const int sDuration = 12;    
 };
+
+class HeroUlti_PierreTerrail : public ISkill
+{
+public:
+    void ForceActivate() override
+    {
+        int skillVal = 0;
+        gConfig.GetHeroUltiValue(mOwner->mHero->mPersona, mOwner->mHero->mSkillLvls[0], &skillVal);
+        // TODO - what is the formula?
+        mOwner->mTarget->TakeSkillDamage(skillVal * 1000);
+    }
+};

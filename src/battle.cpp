@@ -24,6 +24,7 @@ void Battle::AddParticipant(AttackSide side, March* march)
 
 void Battle::Execute()
 {
+    Log::Print("\nBattle Start!");
     PreBattle();
 
     while (true)
@@ -39,6 +40,7 @@ void Battle::Execute()
         FindTargets();
         MoveTroops();
         MakeDamage();  
+        EnergyRegen();
 
         mBattleFrameNum += 1;
         if (mBattleFrameNum >= gConfig.GetMatchFrames())
@@ -55,8 +57,30 @@ void Battle::PreBattle()
     // TODO Should we start from 0 or from this?
     mBattleFrameNum = gConfig.GetUnitsRunIntoBattleFrames();
 
-    mRuntimeMarches[0].SetEnemy(&mRuntimeMarches[1]);
-    mRuntimeMarches[1].SetEnemy(&mRuntimeMarches[0]);
+    mRuntimeMarches[AttackSide::asAtk].SetEnemy(&mRuntimeMarches[1]);
+    mRuntimeMarches[AttackSide::asDef].SetEnemy(&mRuntimeMarches[0]);
+
+    const RuntimeUnit& AA = mRuntimeMarches[AttackSide::asAtk].mRuntimeUnits[RuntimeUnitPosition::bupA];
+    const RuntimeUnit& AB = mRuntimeMarches[AttackSide::asAtk].mRuntimeUnits[RuntimeUnitPosition::bupB];
+    const RuntimeUnit& AC = mRuntimeMarches[AttackSide::asAtk].mRuntimeUnits[RuntimeUnitPosition::bupC];
+    const RuntimeUnit& AD = mRuntimeMarches[AttackSide::asAtk].mRuntimeUnits[RuntimeUnitPosition::bupD];
+          
+    const RuntimeUnit& DA = mRuntimeMarches[AttackSide::asDef].mRuntimeUnits[RuntimeUnitPosition::bupA];
+    const RuntimeUnit& DB = mRuntimeMarches[AttackSide::asDef].mRuntimeUnits[RuntimeUnitPosition::bupB];
+    const RuntimeUnit& DC = mRuntimeMarches[AttackSide::asDef].mRuntimeUnits[RuntimeUnitPosition::bupC];
+    const RuntimeUnit& DD = mRuntimeMarches[AttackSide::asDef].mRuntimeUnits[RuntimeUnitPosition::bupD];
+
+    Log::Print("\nH%d(%d)\tH%d(%d)\t- H%d(%d)\tH%d(%d)",
+        (AC.mHero ? AC.mHero->mPersona : -1), AC.mNumTroops,
+        (AA.mHero ? AA.mHero->mPersona : -1), AA.mNumTroops,
+        (DA.mHero ? DA.mHero->mPersona : -1), DA.mNumTroops,
+        (DC.mHero ? DC.mHero->mPersona : -1), DC.mNumTroops);
+
+    Log::Print("\nH%d(%d)\tH%d(%d)\t- H%d(%d)\tH%d(%d)\n",
+        (AD.mHero ? AD.mHero->mPersona : -1), AD.mNumTroops,
+        (AB.mHero ? AB.mHero->mPersona : -1), AB.mNumTroops,
+        (DB.mHero ? DB.mHero->mPersona : -1), DB.mNumTroops,
+        (DD.mHero ? DD.mHero->mPersona : -1), DD.mNumTroops);
 
     for (int i = 0; i < AttackSide::asNUM; ++i)
     {
@@ -163,6 +187,13 @@ void Battle::MakeDamage()
             }
             
             // Check ulti
+            if (actor.mEnergy >= Config::FULL_ENERGY)
+            {
+                Log::Print("\n[%d] ULTI %s", mBattleFrameNum, (actor.mOwner->mSide == AttackSide::asAtk ? "A" : "D"));
+                actor.mSkills[0]->ForceActivate();
+                actor.mEnergy = 0;
+            }
+
             // TBD
              
             // Check auto attack
@@ -183,35 +214,16 @@ void Battle::MakeDamage()
 int Battle::AutoAttack(RuntimeUnit& actor)
 {
     const TroopKind myTroopKind = actor.mHero->mTroopKind;
-    const float a = actor.mHero->GetStat(StatType::stPhysAtk)
+    const int a = (int)(actor.mHero->GetStat(HeroStatType::hstPhysAtk)
         * gConfig.GetTroopStat(
             myTroopKind, 
             actor.mOwner->mMarch->mLord->mTroopTier[myTroopKind], 
-            StatType::stPhysAtk);
+            TroopsStatType::tstAtk));
 
     RuntimeUnit& actorEnemy = *actor.mTarget;
-    const TroopKind enemyTroopKind = actorEnemy.mHero->mTroopKind;
-    const float d = actorEnemy.mHero->GetStat(StatType::stPhysDef)
-        * gConfig.GetTroopStat(
-            enemyTroopKind, 
-            actorEnemy.mOwner->mMarch->mLord->mTroopTier[enemyTroopKind],
-            StatType::stPhysDef);
+    const int troopsKilled = actorEnemy.TakeAutoAttackDamage(actor.mNumTroops, a);
+    Log::Print("\n[%d] AA %s-> %d(-%d)", mBattleFrameNum, (actor.mOwner->mSide == AttackSide::asAtk ? "A" : "D"), actorEnemy.mNumTroops, troopsKilled);
 
-    const float hp = gConfig.GetTroopStat(
-        enemyTroopKind,
-        actorEnemy.mOwner->mMarch->mLord->mTroopTier[enemyTroopKind],
-        StatType::stHP);
-
-    // NUM * 20 * (ah * at + 150) / (ah * at + 2 * dh * dt + 300) / hp
-    const float Z = 20;
-    const float K = 150;
-    const float L = 300;
-    float damageDone = actor.mNumTroops * Z * (a + K) / (a + 2 * d + L) / hp;
-    int troopsKilled = int(damageDone + 0.5f);
-
-    Log::Print("\n%x -> %x (-%d)", &actor, &actorEnemy, troopsKilled);
-
-    actorEnemy.mNumTroops -= troopsKilled;    
     if (actorEnemy.mNumTroops <= 0)
     {
         actor.mTarget = nullptr;
@@ -219,6 +231,26 @@ int Battle::AutoAttack(RuntimeUnit& actor)
     }
 
     return troopsKilled;
+}
+
+void Battle::EnergyRegen()
+{
+    // Energy regen formula here - regen num is energy per sec + 10 energy for every 1% HP loss    
+    for (int i = 0; i < AttackSide::asNUM; ++i)
+    {
+        RuntimeMarch& rtMarch = mRuntimeMarches[i];
+        for (int j = 0; j < RuntimeUnitPosition::bupNUM; ++j)
+        {
+            RuntimeUnit& actor = rtMarch.mRuntimeUnits[j];
+            if (actor.IsAlive() == false || actor.HasConditionFlag(RuntimeUnitCondition::rucMoving) == false)
+            {
+                continue;
+            }
+            const float dEn = actor.mHero->GetStat(HeroStatType::hstERegen) / gConfig.GetFPS();
+            actor.mEnergy += dEn;
+            // TODO - check if this truncates, or carries on
+        }
+    }
 }
 
 void Battle::PostBattle()
