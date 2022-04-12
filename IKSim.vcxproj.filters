@@ -13,99 +13,84 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Config">
-      <UniqueIdentifier>{349f7c0e-6d95-4333-ad7a-6aab9a664677}</UniqueIdentifier>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{14002758-95c6-400c-941c-4754f3a5c9f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Analysis">
-      <UniqueIdentifier>{1915d94a-0583-401f-bb34-3d0b9327426f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Common">
-      <UniqueIdentifier>{50df211e-2bc5-4b75-ad86-731c95fa8ab8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Log">
-      <UniqueIdentifier>{4fd04908-31fc-4135-bf10-ffd548993bc7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Playground">
-      <UniqueIdentifier>{5c007f91-0b15-465f-9928-929bb402b6ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Runtime">
-      <UniqueIdentifier>{fe65b625-244c-4935-8766-58dee350e8aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Runtime\Skills">
-      <UniqueIdentifier>{9257ea13-5bf3-4f69-bfbd-438855ae8be5}</UniqueIdentifier>
+    <Filter Include="Source Files\IK">
+      <UniqueIdentifier>{c8cb3fe0-6bb3-48ea-89b2-92dd9c4056a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\common_types.cpp">
-      <Filter>Source Files\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="src\config.cpp">
-      <Filter>Source Files\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="src\playground_storage.cpp">
-      <Filter>Source Files\Playground</Filter>
-    </ClCompile>
-    <ClCompile Include="src\playground.cpp">
-      <Filter>Source Files\Playground</Filter>
-    </ClCompile>
-    <ClCompile Include="src\playground_types.cpp">
-      <Filter>Source Files\Playground</Filter>
-    </ClCompile>
-    <ClCompile Include="src\log.cpp">
-      <Filter>Source Files\Log</Filter>
-    </ClCompile>
-    <ClCompile Include="src\battle.cpp">
-      <Filter>Source Files\Runtime</Filter>
-    </ClCompile>
-    <ClCompile Include="src\runtime_types.cpp">
-      <Filter>Source Files\Runtime</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\buffs.cpp">
-      <Filter>Source Files\Runtime\Skills</Filter>
+    <ClCompile Include="src\analytics.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\skills.cpp">
-      <Filter>Source Files\Runtime\Skills</Filter>
+    <ClCompile Include="src\army_provider.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ik_army_provider.cpp">
+      <Filter>Source Files\IK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\battle_processor.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ik_battle_processor.cpp">
+      <Filter>Source Files\IK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ik_config.cpp">
+      <Filter>Source Files\IK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ik_analytics.cpp">
+      <Filter>Source Files\IK</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenario_evaluator.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ik_scenario_evaluator.cpp">
+      <Filter>Source Files\IK</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\analyzer.h">
-      <Filter>Source Files\Analysis</Filter>
+    <ClInclude Include="src\analytics.h">
+      <Filter>Source Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\common_types.h">
-      <Filter>Source Files\Common</Filter>
+    <ClInclude Include="src\army_provider.h">
+      <Filter>Source Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\enums.h">
-      <Filter>Source Files\Common</Filter>
+    <ClInclude Include="src\ik_army_provider.h">
+      <Filter>Source Files\IK</Filter>
     </ClInclude>
-    <ClInclude Include="src\config.h">
-      <Filter>Source Files\Config</Filter>
+    <ClInclude Include="src\battle_processor.h">
+      <Filter>Source Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\playground_storage.h">
-      <Filter>Source Files\Playground</Filter>
+    <ClInclude Include="src\ik_battle_processor.h">
+      <Filter>Source Files\IK</Filter>
     </ClInclude>
-    <ClInclude Include="src\playground.h">
-      <Filter>Source Files\Playground</Filter>
+    <ClInclude Include="src\ik_config.h">
+      <Filter>Source Files\IK</Filter>
     </ClInclude>
-    <ClInclude Include="src\playground_types.h">
-      <Filter>Source Files\Playground</Filter>
+    <ClInclude Include="src\common.h">
+      <Filter>Source Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\log.h">
-      <Filter>Source Files\Log</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\battle.h">
-      <Filter>Source Files\Runtime</Filter>
+    <ClInclude Include="src\ik_analytics.h">
+      <Filter>Source Files\IK</Filter>
     </ClInclude>
-    <ClInclude Include="src\runtime_types.h">
-      <Filter>Source Files\Runtime</Filter>
+    <ClInclude Include="src\scenario_evaluator.h">
+      <Filter>Source Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\buffs.h">
-      <Filter>Source Files\Runtime\Skills</Filter>
+    <ClInclude Include="src\_OLD_CODE_DUMP.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\skills.h">
-      <Filter>Source Files\Runtime\Skills</Filter>
+    <ClInclude Include="src\ik_scenario_evaluator.h">
+      <Filter>Source Files\IK</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

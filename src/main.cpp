@@ -1,22 +1,15 @@
-#include "playground.h"
-#include "battle.h"
-#include "analyzer.h"
-#include "config.h"
+#include "ik_army_provider.h"
+#include "ik_scenario_evaluator.h"
+#include "ik_analytics.h"
 
 int main()
 {
-    gConfig.Init();
+    IKDummyArmyProvider::CreateInst();
+    IKScenarioEvaluator::CreateInst();
 
-    TestPlaygroundA testEnv;
-    testEnv.Init();
-
-    Battle battle;
-    battle.AddParticipant(AttackSide::asAtk, testEnv.GetMarch(AttackSide::asAtk));
-    battle.AddParticipant(AttackSide::asDef, testEnv.GetMarch(AttackSide::asDef));
-    battle.Execute();
-    
-    const Report* rep = battle.GetReport();
-    Analyzer::Analyze(rep);
-
+    IKScenarioEvaluator::Inst()->SetParticipants(IKDummyArmyProvider::Inst()->GetArmy(BattleSide::SideA), 
+                                                 IKDummyArmyProvider::Inst()->GetArmy(BattleSide::SideB));
+    IKScenarioEvaluator::Inst()->RunScenario(BattleScenario::SingleBattle);
+        
     return 0;
 }

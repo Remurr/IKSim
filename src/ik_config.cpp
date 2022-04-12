@@ -1,8 +1,6 @@
-#include "config.h"
-#include "log.h"
-#include <vector>
+#include "ik_config.h"
 
-Config gConfig;
+/*Config gConfig;
 
 class ConfigImpl
 {
@@ -53,5 +51,4 @@ void Config::GetHeroUltiValue(HeroPersona persona, int lvl, int* outA, int* outB
         *outC = mImpl->mHeroUltiValueC[persona][lvl];
     }
 }
-
-
+*/

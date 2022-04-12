@@ -140,31 +140,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\battle.cpp" />
-    <ClCompile Include="src\buffs.cpp" />
-    <ClCompile Include="src\common_types.cpp" />
-    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\analytics.cpp" />
+    <ClCompile Include="src\army_provider.cpp" />
+    <ClCompile Include="src\battle_processor.cpp" />
+    <ClCompile Include="src\ik_analytics.cpp" />
+    <ClCompile Include="src\ik_army_provider.cpp" />
+    <ClCompile Include="src\ik_battle_processor.cpp" />
+    <ClCompile Include="src\ik_config.cpp" />
+    <ClCompile Include="src\ik_scenario_evaluator.cpp" />
     <ClCompile Include="src\log.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\playground_storage.cpp" />
-    <ClCompile Include="src\playground.cpp" />
-    <ClCompile Include="src\playground_types.cpp" />
-    <ClCompile Include="src\runtime_types.cpp" />
-    <ClCompile Include="src\skills.cpp" />
+    <ClCompile Include="src\scenario_evaluator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\analyzer.h" />
-    <ClInclude Include="src\battle.h" />
-    <ClInclude Include="src\buffs.h" />
-    <ClInclude Include="src\common_types.h" />
-    <ClInclude Include="src\config.h" />
-    <ClInclude Include="src\enums.h" />
+    <ClInclude Include="src\analytics.h" />
+    <ClInclude Include="src\army_provider.h" />
+    <ClInclude Include="src\battle_processor.h" />
+    <ClInclude Include="src\common.h" />
+    <ClInclude Include="src\ik_analytics.h" />
+    <ClInclude Include="src\ik_army_provider.h" />
+    <ClInclude Include="src\ik_battle_processor.h" />
+    <ClInclude Include="src\ik_config.h" />
+    <ClInclude Include="src\ik_scenario_evaluator.h" />
     <ClInclude Include="src\log.h" />
-    <ClInclude Include="src\playground_storage.h" />
-    <ClInclude Include="src\playground.h" />
-    <ClInclude Include="src\playground_types.h" />
-    <ClInclude Include="src\runtime_types.h" />
-    <ClInclude Include="src\skills.h" />
+    <ClInclude Include="src\scenario_evaluator.h" />
+    <ClInclude Include="src\_OLD_CODE_DUMP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
